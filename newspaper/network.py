@@ -2,18 +2,17 @@
 Helper functions for http requests and remote data fetching.
 """
 
+import logging
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable, List, Optional, Tuple, Union
-import logging
-import requests
 
-from requests import RequestException
-from requests import Response
+import requests
 import tldextract
+from requests import RequestException, Response
 
 from newspaper import parsers
-from newspaper.exceptions import ArticleException, ArticleBinaryDataException
 from newspaper.configuration import Configuration
+from newspaper.exceptions import ArticleBinaryDataException, ArticleException
 
 log = logging.getLogger(__name__)
 
@@ -240,7 +239,7 @@ def get_html(
             log.warning("get_html() bad status code %s on URL: %s", status_code, url)
             if config.http_success_only:
                 raise ArticleException(
-                    f"Http error when downloading {url}. Status code: {{status_code}}"
+                    f"Http error when downloading {url}. Status code: {status_code}"
                 )
             return ""
     except RequestException as e:
